@@ -9,15 +9,28 @@ using System.Collections;
 
 namespace Mscee
 {
+    /// <summary>
+    /// Jypeli.Vector'a vastaava kokonaisluku (int) vektorityyppi
+    /// </summary>
     public class Vektori
     {
         public int x, y;
+
+        /// <summary>
+        /// Kokonaislukuvektori
+        /// </summary>
+        /// <param name="x">x-komponentti</param>
+        /// <param name="y">y-komponentti</param>
         public Vektori(int x, int y)
         {
             this.x = x;
             this.y = y;
         }
 
+        /// <summary>
+        /// Muunnos kokonaislukuvektorista Jypelin double-vektoriksi.
+        /// </summary>
+        /// <returns>Jypeli.Vector</returns>
         public Vector AsVector()
         {
             return new Vector(x, y);
@@ -27,9 +40,21 @@ namespace Mscee
 
     public class Asetukset
     {
+        /// <summary>
+        /// laudanKoko on neliön muotoisen laudan taustakuvan leveys pikseleissä
+        /// </summary>
         public const int laudanKoko = 208;
+
+        /// <summary>
+        /// ruudunKoko on yksittäisen ruudun koko shakkilaudalla pikseleissä mitattuna. Tässä 8x8 laudalla oletettuna.
+        /// </summary>
         public const int ruudunKoko = laudanKoko / 8;
+
+        /// <summary>
+        /// origo on laudan keskipiste pikseleissä
+        /// </summary>
         public const int origo = ruudunKoko / 2 - laudanKoko / 2;
+
         public const double ZoomNopeus = 0.1;
     }
 
@@ -44,11 +69,13 @@ namespace Mscee
 
         public override void Begin()
         {
+            Siirrot.Init(this); // annetaan siirtoluokalle referenssi Pelin instanssiin
+
             IsFullScreen = false;
             Camera.ZoomFactor = 4.0;
             Mouse.IsCursorVisible = true;
             Title = "MSCEE";
-            MessageDisplay.MessageTime = new TimeSpan(0, 0, 10);
+            MessageDisplay.MessageTime = new TimeSpan(0, 0, 10); // viestien näkymäaika 10 sekuntia
 
             // lisätään valkoiset sotilaat
             for (int i = 1; i < 9; i++)
@@ -63,7 +90,6 @@ namespace Mscee
             }
 
             // tornit
-            // kaikkiin -1 ja i-1
             lauta.Lisaa(new Nappula('t', true, 0, 0, false));
             lauta.Lisaa(new Nappula('t', true, 7, 0, false));
 
@@ -95,7 +121,6 @@ namespace Mscee
             Level.Background.Image = taustaKuva;
 
             // sulkemiset
-            PhoneBackButton.Listen(ConfirmExit, "Lopeta peli");
             Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Lopeta peli");
 
             // koko näytön tila <--> ikkunatila
