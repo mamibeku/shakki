@@ -8,7 +8,6 @@ namespace Mscee
 {
     public class Nappula : GameObject
     {
-        public bool tyhja = false;
         public bool onkoLiikutettu;
         public bool vari;
         public char arvo;
@@ -20,9 +19,13 @@ namespace Mscee
         // Siirrä nappula uuteen paikkaan (x,y).
         public bool Siirra(int x, int y)
         {
+            Debug.Prt(1, "Siirto: " + (paikkaX+1) + ", " + (paikkaY+1) + " -> " + (x+1) + ", " + (y+1));
+
             Position = new Vector(Asetukset.ruudunKoko * x + Asetukset.origo, Asetukset.ruudunKoko * y + Asetukset.origo);
+            Debug.Prt(2, "Position: " + Position.X + ", " + Position.Y);
 
             Nappula kenka = peli.lauta.Lauta(x, y);
+            Debug.Prt(2, "Uudessa ruudussa: " + kenka);
 
             // tarkistetaan siirtojen laillisuus
             switch (arvo)
@@ -40,15 +43,21 @@ namespace Mscee
 
             if (kenka != null && kenka.vari && !vari) // uudessa ruudussa valkoinen, ja musta syö
             {
+                Debug.Prt(1, "Musta syö valkoisen.");
+                Debug.Prt(1, "Poistetaan " + (x + 1) + ", " + (y + 1));
                 peli.lauta.Poista(x, y);
             }
             if (kenka != null && !kenka.vari && vari) // uudessa musta, ja valkoinen syö
             {
+                Debug.Prt(1, "Valkoinen syö mustan");
+                Debug.Prt(1, "Poistetaan " + (x + 1) + ", " + (y + 1));
                 peli.lauta.Poista(x, y);
             }
-            if (kenka == null || kenka.vari != vari)
+            if (kenka == null || kenka.vari != vari) // 
             {
+                Debug.Prt(1, "Lisätään nappula: " + arvo + ", " + vari + ", " + x + ", "+ y + ", " + true);
                 peli.lauta.Lisaa(new Nappula(arvo, vari, x, y, true));
+                Debug.Prt(1, "Poistetaan " + (paikkaX + 1) + ", " + (paikkaY + 1));
                 peli.lauta.Poista(paikkaX, paikkaY);
             }
 
@@ -69,7 +78,7 @@ namespace Mscee
         /// <param name="vari">Nappula on valkoinen, kun vari on <c>true</c>.</param>
         /// <param name="x">The x coordinate.</param>
         /// <param name="y">The y coordinate.</param>
-        public Nappula(char arvo, bool vari, int x, int y, bool onkoLiikutettu) : base(20, 20) // TODO: defaultoi joskus myöhemmin
+        public Nappula(char arvo, bool vari, int x, int y, bool onkoLiikutettu) : base(Asetukset.nappulanKokoX, Asetukset.nappulanKokoY) // TODO: defaultoi joskus myöhemmin
         {
             peli = (Peli)Game.Instance;
 

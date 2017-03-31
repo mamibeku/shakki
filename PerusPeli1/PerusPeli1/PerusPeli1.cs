@@ -31,6 +31,10 @@ namespace Mscee
         public const int ruudunKoko = laudanKoko / 8;
         public const int origo = ruudunKoko / 2 - laudanKoko / 2;
         public const double ZoomNopeus = 0.1;
+        public const int nappulanKokoX = 20;
+        public const int nappulanKokoY = 20;
+
+        public static int debugLevel = 0;
     }
 
     public class Peli : Game
@@ -105,9 +109,26 @@ namespace Mscee
             Keyboard.Listen(Key.Add, ButtonState.Down, delegate { Camera.ZoomFactor += Asetukset.ZoomNopeus; }, "Zoom+");
             Keyboard.Listen(Key.Subtract, ButtonState.Down, delegate { Camera.ZoomFactor -= Asetukset.ZoomNopeus; }, "Zoom-");
 
+            // debugin aktivointi
+            Keyboard.Listen(Key.D, ButtonState.Pressed, delegate { this.DebugToggle(); }, "Debug");
+
             // itse pelaamisen hiirella handlaus
             Mouse.Listen(MouseButton.Left, ButtonState.Pressed, KlikkausPelissa, "kissa");
 
+        }
+
+        private void DebugToggle()
+        {
+            if (Keyboard.IsShiftDown() && Asetukset.debugLevel > 0)
+            {
+                Asetukset.debugLevel -= 1;
+            }
+            else
+            {
+                Asetukset.debugLevel += 1;
+            }
+            Console.WriteLine("debugLevel = " + Asetukset.debugLevel);
+            MessageDisplay.Add("debugLevel = " + Asetukset.debugLevel);
         }
 
         private void KlikkausPelissa()

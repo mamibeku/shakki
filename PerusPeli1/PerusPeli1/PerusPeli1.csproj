@@ -110,6 +110,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Debug.cs" />
     <Compile Include="Nappula.cs" />
     <Compile Include="NappulaTracker.cs" />
     <Compile Include="Pelilauta.cs" />
