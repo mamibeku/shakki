@@ -29,7 +29,7 @@ namespace Mscee
                 {
                     return true;
                 }
-                if (uusiX == vanhaX && !peli.lauta.Lauta(uusiX, uusiY).vari)
+                if (uusiX == vanhaX && peli.lauta.Lauta(uusiX, uusiY) != null)
                 {
                     return true;
                 }
@@ -65,7 +65,7 @@ namespace Mscee
                 {
                     return true;
                 }
-                if (uusiX == vanhaX && peli.lauta.Lauta(uusiX, uusiY).vari)
+                if (uusiX == vanhaX && peli.lauta.Lauta(uusiX, uusiY) !=null)
                 {
                     return true;
                 }
