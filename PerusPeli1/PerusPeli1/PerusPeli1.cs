@@ -53,6 +53,7 @@ namespace Mscee
             Mouse.IsCursorVisible = true;
             Title = "MSCEE";
             MessageDisplay.MessageTime = new TimeSpan(0, 0, 10);
+            Siirrot.Init(this);
 
             // lisätään valkoiset sotilaat
             for (int i = 1; i < 9; i++)
