@@ -104,11 +104,14 @@ namespace Mscee
             Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Lopeta peli");
 
             // koko näytön tila <--> ikkunatila
-            Keyboard.Listen(Key.F, ButtonState.Pressed, delegate { IsFullScreen = !IsFullScreen; }, "Ikkunatilan vaihto");
+            Keyboard.Listen(Key.K, ButtonState.Pressed, delegate { IsFullScreen = !IsFullScreen; }, "Ikkunatilan vaihto");
 
             // zoomaus
             Keyboard.Listen(Key.Add, ButtonState.Down, delegate { Camera.ZoomFactor += Asetukset.ZoomNopeus; }, "Zoom+");
             Keyboard.Listen(Key.Subtract, ButtonState.Down, delegate { Camera.ZoomFactor -= Asetukset.ZoomNopeus; }, "Zoom-");
+
+            // flippaus
+            Keyboard.Listen(Key.F, ButtonState.Pressed, delegate { Camera.ZoomFactor = -Camera.ZoomFactor; }, "Flippaa lauta");
 
             // debugin aktivointi
             Keyboard.Listen(Key.D, ButtonState.Pressed, delegate { this.DebugToggle(); }, "Debug");
