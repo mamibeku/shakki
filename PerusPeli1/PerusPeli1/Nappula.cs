@@ -30,7 +30,7 @@ namespace Mscee
             // tarkistetaan siirtojen laillisuus
             switch (arvo)
             {
-                //case 's': if (Siirrot.Sotilas(onkoLiikutettu, vari, paikkaX, paikkaY, x, y)) { return false; } break;
+                case 's': if (Siirrot.Sotilas(onkoLiikutettu, vari, paikkaX, paikkaY, x, y)) { return false; } break;
                 //case 't': if (Siirrot.Torni(paikkaX, paikkaY, x, y)) { return false; } break;
                 case 'r': if (Siirrot.Ratsu(paikkaX, paikkaY, x, y)) { return false; } break;
                 case 'l': if (Siirrot.Lahetti(paikkaX, paikkaY, x, y)) { return false; } break;
