@@ -111,7 +111,7 @@ namespace Mscee
             Keyboard.Listen(Key.Subtract, ButtonState.Down, delegate { Camera.ZoomFactor -= Asetukset.ZoomNopeus; }, "Zoom-");
 
             // flippaus
-            Keyboard.Listen(Key.F, ButtonState.Pressed, delegate { Camera.ZoomFactor = -Camera.ZoomFactor; }, "Flippaa lauta");
+            Keyboard.Listen(Key.F, ButtonState.Pressed, delegate { Camera.ZoomFactor = -Camera.ZoomFactor; lauta.FlippaaLauta(); }, "Flippaa lauta");
 
             // debugin aktivointi
             Keyboard.Listen(Key.D, ButtonState.Pressed, delegate { this.DebugToggle(); }, "Debug");

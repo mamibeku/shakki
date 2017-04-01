@@ -14,6 +14,8 @@ namespace Mscee
         public List<NappulaTracker> valkoiset = new List<NappulaTracker>();
         public List<NappulaTracker> mustat = new List<NappulaTracker>();
 
+        private bool flipattu = false;
+
         public Pelilauta(int xkoko, int ykoko)
         {
             //this.peli = peli;
@@ -54,6 +56,7 @@ namespace Mscee
         public void Lisaa(Nappula nappula)
         {
             lauta[nappula.paikkaX, nappula.paikkaY] = nappula;
+            if (flipattu) { nappula.FlipImage(); }
             if (nappula.vari)
             {
                 valkoiset.Add(new NappulaTracker(nappula));
@@ -107,6 +110,17 @@ namespace Mscee
             return Poista(paikka.x, paikka.y);
         }
 
+        public void FlippaaLauta()
+        {
+            flipattu = !flipattu;
+            foreach (Nappula nappula in lauta)
+            {
+                if (nappula != null)
+                {
+                    nappula.FlipImage();
+                }
+            }
+        }
     }
 
 }
