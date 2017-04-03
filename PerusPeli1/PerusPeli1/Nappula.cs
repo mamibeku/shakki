@@ -31,7 +31,7 @@ namespace Mscee
             switch (arvo)
             {
                 case 's': if (Siirrot.Sotilas(onkoLiikutettu, vari, paikkaX, paikkaY, x, y)) { return false; } break;
-                //case 't': if (Siirrot.Torni(paikkaX, paikkaY, x, y)) { return false; } break;
+                case 't': if (Siirrot.Torni(paikkaX, paikkaY, x, y)) { return false; } break;
                 case 'r': if (Siirrot.Ratsu(paikkaX, paikkaY, x, y)) { return false; } break;
                 case 'l': if (Siirrot.Lahetti(paikkaX, paikkaY, x, y)) { return false; } break;
                 case 'k': if (Siirrot.Kuningas(paikkaX, paikkaY, x, y)) { return false; } break;
