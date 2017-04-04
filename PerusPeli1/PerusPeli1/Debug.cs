@@ -19,12 +19,12 @@ namespace Mscee
         /// <param name="msg">Nönnönnöö</param>
         public static void Prt(int level, string msg)
         {
-            if (Asetukset.debugLevel >= level)
+            if ((Peli)Game.Instance.asetukset.debugLevel >= level)
             {
                 System.Diagnostics.Debug.WriteLine(msg);
                 Game.Instance.MessageDisplay.Add(msg);
             }
-           
+
         }
     }
 }

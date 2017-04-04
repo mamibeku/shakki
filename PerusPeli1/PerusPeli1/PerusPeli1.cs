@@ -27,6 +27,7 @@ namespace Mscee
 
     public class Asetukset
     {
+        // TODO: isoilla alkukirjaimilla
         public const int laudanKoko = 208;
         public const int ruudunKoko = laudanKoko / 8;
         public const int origo = ruudunKoko / 2 - laudanKoko / 2;
@@ -34,11 +35,13 @@ namespace Mscee
         public const int nappulanKokoX = 20;
         public const int nappulanKokoY = 20;
 
-        public static int debugLevel = 0;
+        public int debugLevel = 0;
     }
 
     public class Peli : Game
     {
+        public Asetukset asetukset;
+
         public Pelilauta lauta = new Pelilauta(8, 8);
 
         Image taustaKuva = LoadImage("gridi");
@@ -53,6 +56,7 @@ namespace Mscee
             Mouse.IsCursorVisible = true;
             Title = "MSCEE";
             MessageDisplay.MessageTime = new TimeSpan(0, 0, 10);
+
             Siirrot.Init(this);
 
             // lisätään valkoiset sotilaat
@@ -107,8 +111,8 @@ namespace Mscee
             Keyboard.Listen(Key.K, ButtonState.Pressed, delegate { IsFullScreen = !IsFullScreen; }, "Ikkunatilan vaihto");
 
             // zoomaus
-            Keyboard.Listen(Key.Add, ButtonState.Down, delegate { Camera.ZoomFactor += Asetukset.ZoomNopeus; }, "Zoom+");
-            Keyboard.Listen(Key.Subtract, ButtonState.Down, delegate { Camera.ZoomFactor -= Asetukset.ZoomNopeus; }, "Zoom-");
+            Keyboard.Listen(Key.Add, ButtonState.Down, delegate { Camera.ZoomFactor += peli.asetukset.ZoomNopeus; }, "Zoom+");
+            Keyboard.Listen(Key.Subtract, ButtonState.Down, delegate { Camera.ZoomFactor -= peli.asetukset.ZoomNopeus; }, "Zoom-");
 
             // flippaus
             Keyboard.Listen(Key.F, ButtonState.Pressed, delegate { Camera.ZoomFactor = -Camera.ZoomFactor; lauta.FlippaaLauta(); }, "Flippaa lauta");
@@ -123,16 +127,16 @@ namespace Mscee
 
         private void DebugToggle()
         {
-            if (Keyboard.IsShiftDown() && Asetukset.debugLevel > 0)
+            if (Keyboard.IsShiftDown() && peli.asetukset.debugLevel > 0)
             {
-                Asetukset.debugLevel -= 1;
+                peli.asetukset.debugLevel -= 1;
             }
             else
             {
-                Asetukset.debugLevel += 1;
+                peli.asetukset.debugLevel += 1;
             }
-            Console.WriteLine("debugLevel = " + Asetukset.debugLevel);
-            MessageDisplay.Add("debugLevel = " + Asetukset.debugLevel);
+            Console.WriteLine("debugLevel = " + peli.asetukset.debugLevel);
+            MessageDisplay.Add("debugLevel = " + peli.asetukset.debugLevel);
         }
 
         private void KlikkausPelissa()
@@ -140,8 +144,8 @@ namespace Mscee
             Console.WriteLine(Mouse.PositionOnWorld.X);
             Console.WriteLine(Mouse.PositionOnWorld.Y);
 
-            int uusiX = (int)Math.Floor(Mouse.PositionOnWorld.X + Asetukset.laudanKoko / 2) / Asetukset.ruudunKoko;
-            int uusiY = (int)Math.Floor(Mouse.PositionOnWorld.Y + Asetukset.laudanKoko / 2) / Asetukset.ruudunKoko;
+            int uusiX = (int)Math.Floor(Mouse.PositionOnWorld.X + peli.asetukset.laudanKoko / 2) / peli.asetukset.ruudunKoko;
+            int uusiY = (int)Math.Floor(Mouse.PositionOnWorld.Y + peli.asetukset.laudanKoko / 2) / peli.asetukset.ruudunKoko;
 
             if (uusiX < 0 || uusiX > 7 || uusiY < 0 || uusiY > 7)
             {

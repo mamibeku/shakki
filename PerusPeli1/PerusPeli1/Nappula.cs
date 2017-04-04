@@ -21,9 +21,6 @@ namespace Mscee
         {
             Debug.Prt(1, "Siirto: " + (paikkaX+1) + ", " + (paikkaY+1) + " -> " + (x+1) + ", " + (y+1));
 
-            Position = new Vector(Asetukset.ruudunKoko * x + Asetukset.origo, Asetukset.ruudunKoko * y + Asetukset.origo);
-            Debug.Prt(2, "Position: " + Position.X + ", " + Position.Y);
-
             Nappula kenka = peli.lauta.Lauta(x, y);
             Debug.Prt(2, "Uudessa ruudussa: " + kenka);
 
@@ -40,28 +37,16 @@ namespace Mscee
                     break;
             }
 
+            Position = new Vector(peli.asetukset.ruudunKoko * x + peli.asetukset.origo, peli.asetukset.ruudunKoko * y + peli.asetukset.origo);
+            Debug.Prt(2, "Position: " + Position.X + ", " + Position.Y);
 
-            if (kenka != null && kenka.vari && !vari) // uudessa ruudussa valkoinen, ja musta syö
+            if(kenka != null)
             {
-                Debug.Prt(1, "Musta syö valkoisen.");
-                Debug.Prt(1, "Poistetaan " + (x + 1) + ", " + (y + 1));
                 peli.lauta.Poista(x, y);
             }
-            if (kenka != null && !kenka.vari && vari) // uudessa musta, ja valkoinen syö
-            {
-                Debug.Prt(1, "Valkoinen syö mustan");
-                Debug.Prt(1, "Poistetaan " + (x + 1) + ", " + (y + 1));
-                peli.lauta.Poista(x, y);
-            }
-            if (kenka == null || kenka.vari != vari) // 
-            {
-                Debug.Prt(1, "Lisätään nappula: " + arvo + ", " + vari + ", " + x + ", "+ y + ", " + true);
-                peli.lauta.Lisaa(new Nappula(arvo, vari, x, y, true));
-                Debug.Prt(1, "Poistetaan " + (paikkaX + 1) + ", " + (paikkaY + 1));
-                peli.lauta.Poista(paikkaX, paikkaY);
-            }
 
-
+            peli.lauta.Lisaa(new Nappula(this.arvo, this.vari, x, y, true));
+            peli.lauta.Poista(paikkaX, paikkaY);
 
             return true; // TODO: PLACEHOLDER, FIX THIS
         }
@@ -78,7 +63,7 @@ namespace Mscee
         /// <param name="vari">Nappula on valkoinen, kun vari on <c>true</c>.</param>
         /// <param name="x">The x coordinate.</param>
         /// <param name="y">The y coordinate.</param>
-        public Nappula(char arvo, bool vari, int x, int y, bool onkoLiikutettu) : base(Asetukset.nappulanKokoX, Asetukset.nappulanKokoY) // TODO: defaultoi joskus myöhemmin
+        public Nappula(char arvo, bool vari, int x, int y, bool onkoLiikutettu) : base(peli.asetukset.nappulanKokoX, peli.asetukset.nappulanKokoY) // TODO: defaultoi joskus myöhemmin
         {
             peli = (Peli)Game.Instance;
 
@@ -87,7 +72,7 @@ namespace Mscee
 
             paikkaX = x;
             paikkaY = y;
-            Position = new Vector(Asetukset.ruudunKoko * x + Asetukset.origo, Asetukset.ruudunKoko * y + Asetukset.origo);
+            Position = new Vector(peli.asetukset.ruudunKoko * x + peli.asetukset.origo, peli.asetukset.ruudunKoko * y + peli.asetukset.origo);
             //
             string prefix = "musta";
             if (vari) { prefix = "valkoinen"; } // valitaan väri
