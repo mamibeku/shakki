@@ -9,15 +9,47 @@ using System.Collections;
 
 namespace Mscee
 {
+    /// <summary>
+    /// Oma vektoriluokka kokonaisluvuille, vrt. Jypeli.Vector double-pareille.
+    /// </summary>
     public class Vektori
     {
-        public int x, y;
+        /// <summary>
+        /// Vektorin x-komponentti
+        /// </summary>
+        /// <value>
+        /// Asettaa x-komponentin suuruuden
+        /// </value>
+        public int x;
+
+        /// <summary>
+        /// Vektorin y-komponentti
+        /// </summary>
+        /// <value>
+        /// Asettaa y-komponentin suuruuden
+        /// </value>
+        public int y;
+
+        /// <summary>
+        /// Vektorin konstruktori
+        /// </summary>
+        /// <param name="x">Uuden vektorin x-komponentti</param>
+        /// <param name="y">Uuden vektorin y-komponentti</param>
+        /// <returns>
+        /// Palauttaa uuden vektorin
+        /// </returns>
         public Vektori(int x, int y)
         {
             this.x = x;
             this.y = y;
         }
 
+        /// <summary cref="Jypeli.Vector">
+        /// Muunnos Jypeli.Vector:ksi
+        /// </summary>
+        /// <returns>
+        /// Palauttaa doublea käyttävän Vectorin.
+        /// </returns>
         public Vector AsVector()
         {
             return new Vector(x, y);
@@ -42,21 +74,30 @@ namespace Mscee
     {
         public Asetukset asetukset;
 
+        /// <summary>
+        /// lauta sisältää shakkipelin tilan tarkkailuun käytettävän objektin
+        /// </summary>
         public Pelilauta lauta = new Pelilauta(8, 8);
 
-        Image taustaKuva = LoadImage("gridi");
+        // ladataan taustakuva tiedostosta
+        private Image taustaKuva = LoadImage("gridi");
 
-        private Vektori edellinenKlikkaus;
-        private Vektori viimeisinNappula = new Vektori(-1, -1); // ruutuX, ruutuY
+        private Vektori edellinenKlikkaus; //edellisen klikatun ruudun koordinaatit
+        private Vektori viimeisinNappula = new Vektori(-1, -1); // ruutuX ja ruutuY alkutilassa
 
+        //
         public override void Begin()
         {
+            // asetetaan järkeviä aloitusarvoja Jypelin asetuksille
             IsFullScreen = false;
             Camera.ZoomFactor = 4.0;
             Mouse.IsCursorVisible = true;
             Title = "MSCEE";
+
+            // asetetaan näytölle tulevien viestien näkymisajaksi 10 sekuntia
             MessageDisplay.MessageTime = new TimeSpan(0, 0, 10);
 
+            // annetaan siirrontarkistusluokalle referenssi käytävään peliin
             Siirrot.Init(this);
 
             // lisätään valkoiset sotilaat
@@ -99,8 +140,9 @@ namespace Mscee
             lauta.Lisaa(new Nappula('q', true, 3, 0, false));
             lauta.Lisaa(new Nappula('q', false, 3, 7, false));
 
-            //TÄSTÄ ETEENPÄIN VAIN KIVAA
+            // TÄSTÄ ETEENPÄIN VAIN KIVAA
 
+            // asetetaan taustakuva eli kuva shakkilaudasta
             Level.Background.Image = taustaKuva;
 
             // sulkemiset
@@ -121,40 +163,52 @@ namespace Mscee
             Keyboard.Listen(Key.D, ButtonState.Pressed, delegate { this.DebugToggle(); }, "Debug");
 
             // itse pelaamisen hiirella handlaus
-            Mouse.Listen(MouseButton.Left, ButtonState.Pressed, KlikkausPelissa, "kissa");
+            Mouse.Listen(MouseButton.Left, ButtonState.Pressed, KlikkausPelissa, "Siirtele nappuloita");
 
         }
 
+        /// <summary>
+        /// DebugToggle käsittelee debugLevelin muuttamiseen käytettävät näppäinpainallukset.
+        /// </summary>
         private void DebugToggle()
         {
+            // Jos shift on painettuna, vähennetään debugLeveliä.
+            // Pidetään myös huoli, ettei mennä nollasta pienemmäksi.
             if (Keyboard.IsShiftDown() && peli.asetukset.debugLevel > 0)
             {
                 peli.asetukset.debugLevel -= 1;
             }
-            else
+            else  // Muuten nostetaan debugLeveliä.
             {
                 peli.asetukset.debugLevel += 1;
             }
-            Console.WriteLine("debugLevel = " + peli.asetukset.debugLevel);
+            // Huudellaan uudesta levelistä.
+            System.Diagnostics.Debug.WriteLine("debugLevel = " + peli.asetukset.debugLevel);
             MessageDisplay.Add("debugLevel = " + peli.asetukset.debugLevel);
         }
 
+        /// <summary>
+        /// KlikkausPelissa käsittelee nappuloiden siirtoihin liittyvät klikkaukset pelilaudalla.
+        /// </summary>
         private void KlikkausPelissa()
         {
-            Console.WriteLine(Mouse.PositionOnWorld.X);
-            Console.WriteLine(Mouse.PositionOnWorld.Y);
+            Debug.Prt(Mouse.PositionOnWorld.X);
+            Debug.Prt(Mouse.PositionOnWorld.Y);
 
-            int uusiX = (int)Math.Floor(Mouse.PositionOnWorld.X + peli.asetukset.laudanKoko / 2) / peli.asetukset.ruudunKoko;
-            int uusiY = (int)Math.Floor(Mouse.PositionOnWorld.Y + peli.asetukset.laudanKoko / 2) / peli.asetukset.ruudunKoko;
+            int uusiX = (int)Math.Floor(Mouse.PositionOnWorld.X + peli.asetukset.laudanKoko / 2) / peli.asetukset.ruudunKoko; // FIXME: poista "peli."?
+            int uusiY = (int)Math.Floor(Mouse.PositionOnWorld.Y + peli.asetukset.laudanKoko / 2) / peli.asetukset.ruudunKoko; // FIXME: poista "peli."?
 
+            // tarkistetaan, että koordinaatit ovat laudan sisällä
             if (uusiX < 0 || uusiX > 7 || uusiY < 0 || uusiY > 7)
             {
                 return;
             }
 
+            // katsotaan mitä klikatusta ruudusta löytyy
             Nappula uusiNappula = lauta.Lauta(uusiX, uusiY);
 
-            if (viimeisinNappula.x == -1 && viimeisinNappula.y == -1) // Onko nappulaa valittu?
+            // Onko edellistä nappulaa valittu?
+            if (viimeisinNappula.x == -1 && viimeisinNappula.y == -1)
             {
                 if (uusiNappula != null) // valittiin nappula
                 {
@@ -164,18 +218,19 @@ namespace Mscee
             }
             else // NAPPULA ON VALITTU
             {
-                // tarkitetaan onko nappula oma tai paikka sama kuin edellinen // FIXME: tarkista
+                // tarkitetaan onko nappula oma tai paikka sama kuin edellinen
                 if ((viimeisinNappula.x == uusiX && viimeisinNappula.y == uusiY) || (uusiNappula != null && lauta.Lauta(viimeisinNappula.x, viimeisinNappula.y).vari == uusiNappula.vari))
                 {
                     return;
                 }
                 lauta.Lauta(edellinenKlikkaus).Siirra(uusiX, uusiY);
 
-
+                // nollataan viimeksi valitun nappulan paikka
                 viimeisinNappula.x = -1;
                 viimeisinNappula.y = -1;
             }
 
+            // tallennetaan tapahtuneen klikkauksen ruudun koordinaatit
             edellinenKlikkaus = new Vektori(uusiX, uusiY);
         }
     }
