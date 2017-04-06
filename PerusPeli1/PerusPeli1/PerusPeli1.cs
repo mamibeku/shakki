@@ -7,7 +7,7 @@ using Jypeli.Effects;
 using Jypeli.Widgets;
 using System.Collections;
 /// @author  Markus Kulmala, Jyri Eerola
-/// @version 6.42.2017
+/// @version 7.4.2017
 
 namespace Mscee
 {
