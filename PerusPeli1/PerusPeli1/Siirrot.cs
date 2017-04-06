@@ -7,8 +7,8 @@ namespace Mscee
 {
     public class Siirrot
     {
-        private static Peli peli;
-        private static void Init(Peli reference)
+        public static Peli peli;
+        public static void Init(Peli reference)
         {
             peli = reference;
         }
@@ -23,8 +23,8 @@ namespace Mscee
         /// <param name="uusiX">nappulan uuden paikan X-koordinaatti</param>
         /// <param name="uusiY">nappulan uuden paikan Y-koordinaatti</param>
         /// <returns>Palauttaa true, jos siirto on laiton. False, jos siirto on laillinen.</returns>
-        public bool Sotilas(bool onkoLiikutettu, bool vari, int vanhaX, int vanhaY, int uusiX, int uusiY)
-        {            
+        public static bool Sotilas(bool onkoLiikutettu, bool vari, int vanhaX, int vanhaY, int uusiX, int uusiY)
+        {
             if (vari) // on valkoinen
             {
                 if (uusiY <= vanhaY || uusiY - vanhaY > 2) // ei voi liikkua eteenpäin kuin max2, eikä taaksepäin yhtään
@@ -98,7 +98,7 @@ namespace Mscee
         /// <param name="uusiX">nappulan uuden paikan X-koordinaatti</param>
         /// <param name="uusiY">nappulan uuden paikan Y-koordinaatti</param>
         /// <returns>Palauttaa true, jos siirto on laiton. False, jos siirto on laillinen.</returns>
-        public bool Torni(int vanhaX, int vanhaY, int uusiX, int uusiY) // Määritellään tornin laittomat siirrot
+        public static bool Torni(int vanhaX, int vanhaY, int uusiX, int uusiY) // Määritellään tornin laittomat siirrot
         {
             if (uusiX - vanhaX != 0 && uusiY - vanhaY != 0) // voi liikkua vain vaaka- tai pystysuunnassa
             {
@@ -155,7 +155,7 @@ namespace Mscee
         /// <param name="uusiX">nappulan uuden paikan X-koordinaatti</param>
         /// <param name="uusiY">nappulan uuden paikan Y-koordinaatti</param>
         /// <returns>Palauttaa true, jos siirto on laiton. False, jos siirto on laillinen.</returns>
-        public bool Ratsu(int vanhaX, int vanhaY, int uusiX, int uusiY)
+        public static bool Ratsu(int vanhaX, int vanhaY, int uusiX, int uusiY)
         {
             if (uusiX - vanhaX > 2 || uusiX - vanhaX < -2) // sivuille ei voi liikkua enemmän kuin kaksi ruutua
             {
@@ -183,7 +183,7 @@ namespace Mscee
         /// <param name="uusiX">nappulan uuden paikan X-koordinaatti</param>
         /// <param name="uusiY">nappulan uuden paikan Y-koordinaatti</param>
         /// <returns>Palauttaa true, jos siirto on laiton. False, jos siirto on laillinen.</returns>
-        public bool Lahetti(int vanhaX, int vanhaY, int uusiX, int uusiY)
+        public static bool Lahetti(int vanhaX, int vanhaY, int uusiX, int uusiY)
         {
             if (uusiX - vanhaX != uusiY - vanhaY && uusiX - vanhaX != -1 * (uusiY - vanhaY)) // tapahtuuko siirto ylipäätään diagonaalilla
             {
@@ -244,7 +244,7 @@ namespace Mscee
         /// <param name="uusiX">nappulan uuden paikan X-koordinaatti</param>
         /// <param name="uusiY">nappulan uuden paikan Y-koordinaatti</param>
         /// <returns>Palauttaa true, jos siirto on laiton. False, jos siirto on laillinen.</returns>
-        public bool Kuningas(int vanhaX, int vanhaY, int uusiX, int uusiY)
+        public static bool Kuningas(int vanhaX, int vanhaY, int uusiX, int uusiY)
         {
             if (Math.Abs(uusiX - vanhaX) > 1 || Math.Abs(uusiY - vanhaY) > 1)
             {
@@ -261,7 +261,7 @@ namespace Mscee
         /// <param name="uusiX">nappulan uuden paikan X-koordinaatti</param>
         /// <param name="uusiY">nappulan uuden paikan Y-koordinaatti</param>
         /// <returns>Palauttaa true, jos siirto on laiton. False, jos siirto on laillinen.</returns>
-        public bool Kuningatar(int vanhaX, int vanhaY, int uusiX, int uusiY)
+        public static bool Kuningatar(int vanhaX, int vanhaY, int uusiX, int uusiY)
         {
             if (uusiX - vanhaX != 0 && uusiY - vanhaY != 0 && uusiX - vanhaX != uusiY - vanhaY && uusiX - vanhaX != -1 * (uusiY - vanhaY)) // tapahtuuko siirto diagonaalin tai pysty-tai vaakasuunnan ulkopuolella
             {
@@ -353,6 +353,7 @@ namespace Mscee
             }
             return false;
         }
+
         /// <summary>
         /// Jos pelaaja yrittää tehdä laitonta siirtoa, niin tulostetaan siitä ilmoittava virheviesti
         /// </summary>
