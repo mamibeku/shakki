@@ -20,28 +20,6 @@ namespace Mscee
         /// <value>
         /// Asettaa x-komponentin suuruuden
         /// </value>
-        public int x;using System;
-using System.Collections.Generic;
-using Jypeli;
-using Jypeli.Assets;
-using Jypeli.Controls;
-using Jypeli.Effects;
-using Jypeli.Widgets;
-using System.Collections;
-
-namespace Mscee
-{
-    /// <summary>
-    /// Oma vektoriluokka kokonaisluvuille, vrt. Jypeli.Vector double-pareille.
-    /// </summary>
-    public class Vektori
-    {
-        /// <summary>
-        /// Vektorin x-komponentti
-        /// </summary>
-        /// <value>
-        /// Asettaa x-komponentin suuruuden
-        /// </value>
         public int x;
 
         /// <summary>
