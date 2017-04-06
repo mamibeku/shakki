@@ -20,6 +20,28 @@ namespace Mscee
         /// <value>
         /// Asettaa x-komponentin suuruuden
         /// </value>
+        public int x;using System;
+using System.Collections.Generic;
+using Jypeli;
+using Jypeli.Assets;
+using Jypeli.Controls;
+using Jypeli.Effects;
+using Jypeli.Widgets;
+using System.Collections;
+
+namespace Mscee
+{
+    /// <summary>
+    /// Oma vektoriluokka kokonaisluvuille, vrt. Jypeli.Vector double-pareille.
+    /// </summary>
+    public class Vektori
+    {
+        /// <summary>
+        /// Vektorin x-komponentti
+        /// </summary>
+        /// <value>
+        /// Asettaa x-komponentin suuruuden
+        /// </value>
         public int x;
 
         /// <summary>
@@ -56,20 +78,24 @@ namespace Mscee
         }
 
     }
-
+    /// <summary>
+    /// Vakioita joita käytetään usein, jotka liittyvät laudan ja nappulan asetuksiin
+    /// </summary>
     public class Asetukset
     {
         // TODO: isoilla alkukirjaimilla
-        public const int laudanKoko = 208;
-        public const int ruudunKoko = laudanKoko / 8;
-        public const int origo = ruudunKoko / 2 - laudanKoko / 2;
-        public const double ZoomNopeus = 0.1;
-        public const int nappulanKokoX = 20;
-        public const int nappulanKokoY = 20;
+        public const int LAUDANKOKO = 208;
+        public const int RUUDUNKOKO = LAUDANKOKO / 8;
+        public const int origo = RUUDUNKOKO / 2 - LAUDANKOKO / 2;
+        public const double ZOOMNOPEUS = 0.1;
+        public const int NAPPULANKOKO_X = 20;
+        public const int NAPPULANKOKO_Y = 20;
 
         public int debugLevel = 0;
     }
-
+    /// <summary>
+    /// itse peliin liittyvät asiat, kuten siirtäminen 
+    /// </summary>
     public class Peli : Game
     {
         public Asetukset asetukset;
@@ -85,7 +111,9 @@ namespace Mscee
         private Vektori edellinenKlikkaus; //edellisen klikatun ruudun koordinaatit
         private Vektori viimeisinNappula = new Vektori(-1, -1); // ruutuX ja ruutuY alkutilassa
 
-        //
+        /// <summary>
+        /// mitä tapahtuu kun peli käynnistetään
+        /// </summary>
         public override void Begin()
         {
             // asetetaan järkeviä aloitusarvoja Jypelin asetuksille
@@ -112,8 +140,7 @@ namespace Mscee
                 lauta.Lisaa(new Nappula('s', false, i - 1, 6, false));
             }
 
-            // tornit
-            // kaikkiin -1 ja i-1
+            // tornit            
             lauta.Lisaa(new Nappula('t', true, 0, 0, false));
             lauta.Lisaa(new Nappula('t', true, 7, 0, false));
 
@@ -153,8 +180,8 @@ namespace Mscee
             Keyboard.Listen(Key.K, ButtonState.Pressed, delegate { IsFullScreen = !IsFullScreen; }, "Ikkunatilan vaihto");
 
             // zoomaus
-            Keyboard.Listen(Key.Add, ButtonState.Down, delegate { Camera.ZoomFactor += peli.asetukset.ZoomNopeus; }, "Zoom+");
-            Keyboard.Listen(Key.Subtract, ButtonState.Down, delegate { Camera.ZoomFactor -= peli.asetukset.ZoomNopeus; }, "Zoom-");
+            Keyboard.Listen(Key.Add, ButtonState.Down, delegate { Camera.ZoomFactor += peli.asetukset.ZOOMNOPEUS; }, "Zoom+");
+            Keyboard.Listen(Key.Subtract, ButtonState.Down, delegate { Camera.ZoomFactor -= peli.asetukset.ZOOMNOPEUS; }, "Zoom-");
 
             // flippaus
             Keyboard.Listen(Key.F, ButtonState.Pressed, delegate { Camera.ZoomFactor = -Camera.ZoomFactor; lauta.FlippaaLauta(); }, "Flippaa lauta");
@@ -195,8 +222,8 @@ namespace Mscee
             Debug.Prt(Mouse.PositionOnWorld.X);
             Debug.Prt(Mouse.PositionOnWorld.Y);
 
-            int uusiX = (int)Math.Floor(Mouse.PositionOnWorld.X + peli.asetukset.laudanKoko / 2) / peli.asetukset.ruudunKoko; // FIXME: poista "peli."?
-            int uusiY = (int)Math.Floor(Mouse.PositionOnWorld.Y + peli.asetukset.laudanKoko / 2) / peli.asetukset.ruudunKoko; // FIXME: poista "peli."?
+            int uusiX = (int)Math.Floor(Mouse.PositionOnWorld.X + peli.asetukset.LAUDANKOKO / 2) / peli.asetukset.RUUDUNKOKO; // FIXME: poista "peli."?
+            int uusiY = (int)Math.Floor(Mouse.PositionOnWorld.Y + peli.asetukset.LAUDANKOKO / 2) / peli.asetukset.RUUDUNKOKO; // FIXME: poista "peli."?
 
             // tarkistetaan, että koordinaatit ovat laudan sisällä
             if (uusiX < 0 || uusiX > 7 || uusiY < 0 || uusiY > 7)
