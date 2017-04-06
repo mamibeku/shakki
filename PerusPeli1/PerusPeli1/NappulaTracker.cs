@@ -6,6 +6,9 @@ using Jypeli;
 
 namespace Mscee
 {
+    /// <summary>
+    /// trackataan nappuloita
+    /// </summary>
     public class NappulaTracker
     {
         public bool vari;
@@ -15,6 +18,10 @@ namespace Mscee
         public Vector paikka;
         public bool liikutettu = false;
 
+        /// <summary>
+        /// nappulaan liittyvät attribuutit
+        /// </summary>
+        /// <param name="nappula">laudalla oleva nappula</param>
         public NappulaTracker(Nappula nappula)
         {
             vari = nappula.vari;
@@ -24,12 +31,21 @@ namespace Mscee
             paikka = new Vector(nappula.paikkaX, nappula.paikkaY);
         }
 
+        /// <summary>
+        /// Nappulan paikka 
+        /// </summary>
+        /// <param name="x">x-koordinaatti laudalla</param>
+        /// <param name="y">y-kordinaatti laudalla</param>
         public void XY(int x, int y)
         {
             this.x = x;
             this.y = y;
         }
 
+        /// <summary>
+        /// Nappulan paikka
+        /// </summary>
+        /// <param name="paikka">paikka vektorina</param>
         public void XY(Vector paikka)
         {
             x = (int)paikka.X;
