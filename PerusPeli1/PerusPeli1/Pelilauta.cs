@@ -10,22 +10,23 @@ namespace Mscee
     /// laudalla olevat asiat, kuten eriväriset nappulat
     /// </summary>
     public class Pelilauta
-    {
-        //private Peli peli;
-
+    {        
         public Nappula[,] lauta;
         public List<NappulaTracker> valkoiset = new List<NappulaTracker>();
         public List<NappulaTracker> mustat = new List<NappulaTracker>();
-
         private bool flipattu = false;
-
         public Pelilauta(int xkoko, int ykoko)
         {
             //this.peli = peli;
             lauta = new Nappula[xkoko, ykoko];
         }
 
-        // Getter. Haetaan nappuloita.
+        /// <summary>
+        /// haetaan nappuloita
+        /// </summary>
+        /// <param name="x">laudan x koordinaatti</param>
+        /// <param name="y">laudan y koordinaatti</param>
+        /// <returns>Nappulan, joka on paikassa x,y</returns>
         public Nappula Lauta(int x, int y)
         {
             try
@@ -117,9 +118,7 @@ namespace Mscee
                     mustat.RemoveAt(i);
                     lauta[x, y].Destroy();
                     lauta[x, y] = null;
-
                 }
-
             }
             if (mustat.Count == 0)
             {
@@ -152,5 +151,4 @@ namespace Mscee
             }
         }
     }
-
 }
