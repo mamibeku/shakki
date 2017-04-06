@@ -6,6 +6,9 @@ using Jypeli;
 
 namespace Mscee
 {
+    /// <summary>
+    /// laudalla olevat asiat, kuten eriväriset nappulat
+    /// </summary>
     public class Pelilauta
     {
         //private Peli peli;
@@ -35,24 +38,40 @@ namespace Mscee
             }
         }
 
-        // Getter. Haetaan nappuloita.
+        /// <summary>
+        /// haetaan Nappuloita
+        /// </summary>
+        /// <param name="paikka"> paikka laudalla</param>
+        /// <returns>Nappula joka siinä paikassa on</returns>
         public Nappula Lauta(Vektori paikka)
         {
             return Lauta(paikka.x, paikka.y);
         }
 
-        // Setter. Muutetaan nappuloita.
+        /// <summary>
+        /// Muutetaan nappuloita.
+        /// </summary>
+        /// <param name="x">laudan x koordianatti</param>
+        /// <param name="y">laudan y koordinaatti</param>
+        /// <param name="uusi">Nappula, joka laitetaan paikkaan x,y</param>
         public void Lauta(int x, int y, Nappula uusi)
         {
             lauta[x, y] = uusi;
         }
 
-        // Setter. Muutetaan nappuloita.
+        /// <summary>
+        /// Sama kuin äsken, mutta paikka on kokonaisluku vektori
+        /// </summary>
+        /// <param name="paikka">laudan x ja y koordianatti</param>
+        /// <param name="uusi">Nappula, joka laitetaan paikkaan x,y</param>
         public void Lauta(Vektori paikka, Nappula uusi)
         {
             lauta[paikka.x, paikka.y] = uusi;
         }
-
+        /// <summary>
+        /// Lisätään nappuloita
+        /// </summary>
+        /// <param name="nappula"> nappula joka lisätään</param>
         public void Lisaa(Nappula nappula)
         {
             lauta[nappula.paikkaX, nappula.paikkaY] = nappula;
@@ -68,7 +87,12 @@ namespace Mscee
             Peli.Instance.Add(nappula);
         }
 
-        // Poista nappula taulukosta ja listoilta
+        /// <summary>
+        /// Poistaa nappulan taulukosta ja listoilta
+        /// </summary>
+        /// <param name="x">laudan x koordinaatti</param>
+        /// <param name="y">laudan y koordinaatti</param>
+        /// <returns></returns>
         public bool Poista(int x, int y)
         {
             for (int i = 0; i < valkoiset.Count; i++)
@@ -104,12 +128,18 @@ namespace Mscee
             return true;
         }
 
-        // Poista nappula taulukosta ja listoilta
+        /// <summary>
+        /// sama kuin äskeinen, mutta ottaa argumenttina kokonaislukuvektorin
+        /// </summary>
+        /// <param name="paikka">paikka laudalla</param>
+        /// <returns></returns>
         public bool Poista(Vektori paikka)
         {
             return Poista(paikka.x, paikka.y);
         }
-
+        /// <summary>
+        /// Käännetään lauta
+        /// </summary>
         public void FlippaaLauta()
         {
             flipattu = !flipattu;
