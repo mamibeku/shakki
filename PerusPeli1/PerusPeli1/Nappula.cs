@@ -29,8 +29,8 @@ namespace Mscee
         {
             Debug.Prt(1, "Siirto: " + (paikkaX + 1) + ", " + (paikkaY + 1) + " -> " + (x + 1) + ", " + (y + 1));
 
-            Nappula uudenpaikannappula = peli.lauta.Lauta(x, y);
-            Debug.Prt(2, "Uudessa ruudussa: " + uudenpaikannappula);
+            Nappula kenka = peli.lauta.Lauta(x, y);
+ -            Debug.Prt(2, "Uudessa ruudussa: " + kenka);
 
             // tarkistetaan siirtojen laillisuus
             switch (arvo)
@@ -48,7 +48,7 @@ namespace Mscee
             Position = new Vector(peli.asetukset.ruudunKoko * x + peli.asetukset.origo, peli.asetukset.ruudunKoko * y + peli.asetukset.origo);
             Debug.Prt(2, "Position: " + Position.X + ", " + Position.Y);
 
-            if (uudenpaikannappula != null)
+            if(kenka != null)
             {
                 peli.lauta.Poista(x, y); // jos uudessa paikassa on erivärinen nappula, niin se poistetaan
             }
@@ -58,6 +58,7 @@ namespace Mscee
 
             return true;
         }
+        
         /// <summary>
         /// siirtofunktio, mutta kokonaislukujen sijasta ottaa argumenttina vektorin joka sisältää uuden paikan koordinaatit
         /// </summary>
