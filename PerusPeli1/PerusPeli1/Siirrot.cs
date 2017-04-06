@@ -7,8 +7,8 @@ namespace Mscee
 {
     public class Siirrot
     {
-        static Peli peli;
-        public static void Init(Peli reference)
+        private static Peli peli;
+        private static void Init(Peli reference)
         {
             peli = reference;
         }
@@ -23,66 +23,66 @@ namespace Mscee
         /// <param name="uusiX">nappulan uuden paikan X-koordinaatti</param>
         /// <param name="uusiY">nappulan uuden paikan Y-koordinaatti</param>
         /// <returns>Palauttaa true, jos siirto on laiton. False, jos siirto on laillinen.</returns>
-        public static bool Sotilas(bool onkoLiikutettu, bool vari, int vanhaX, int vanhaY, int uusiX, int uusiY)
+        public bool Sotilas(bool onkoLiikutettu, bool vari, int vanhaX, int vanhaY, int uusiX, int uusiY)
         {            
             if (vari) // on valkoinen
             {
-                if (uusiY <= vanhaY || uusiY - vanhaY > 2)
+                if (uusiY <= vanhaY || uusiY - vanhaY > 2) // ei voi liikkua eteenpäin kuin max2, eikä taaksepäin yhtään
                 {
                     return true;
                 }
-                if (onkoLiikutettu && uusiY - vanhaY > 1)
+                if (onkoLiikutettu && uusiY - vanhaY > 1) // jos on liikutettu niin eteenpäin vain yksi
                 {
                     return true;
                 }
-                if (uusiX == vanhaX && peli.lauta.Lauta(uusiX, uusiY) != null)
+                if (uusiX == vanhaX && peli.lauta.Lauta(uusiX, uusiY) != null) // ei voi syödä samalla x koordinaatilla olevaa
                 {
                     return true;
                 }
-                if (uusiY == 3 && peli.lauta.Lauta(uusiX, 2) != null && vanhaY == 1)
+                if (uusiY == 3 && peli.lauta.Lauta(uusiX, 2) != null && vanhaY == 1) // ei voi mennä alkuruudusta toisen nappulan läpi kaksi ruutua eteenpäin
                 {
                     return true;
                 }
-                if (uusiX - vanhaX < -1 || uusiX - vanhaX > 1)
+                if (uusiX - vanhaX < -1 || uusiX - vanhaX > 1) // ei voi mennä vaakasuunnassa pidemmälle sivulle kuin yksi ruutu
                 {
                     return true;
                 }
-                if (uusiX != vanhaX && uusiY - vanhaY == 2)
+                if (uusiX != vanhaX && uusiY - vanhaY == 2) // ei voi mennä kaksi ruutua eteenpäin ja sivulle samaan aikaan
                 {
                     return true;
                 }
-                if (uusiX != vanhaX && peli.lauta.Lauta(uusiX, uusiY) == null)
+                if (uusiX != vanhaX && peli.lauta.Lauta(uusiX, uusiY) == null) // ei voi mennä sivulle ellei syö nappulaa
                 {
                     return true;
                 }
             }
             if (!vari) // on musta
             {
-                if (uusiY >= vanhaY || uusiY - vanhaY < -2)
+                if (uusiY >= vanhaY || uusiY - vanhaY < -2) // ei voi liikkua eteenpäin kuin max2, eikä taaksepäin yhtään
                 {
                     return true;
                 }
-                if (onkoLiikutettu && uusiY - vanhaY < -1)
+                if (onkoLiikutettu && uusiY - vanhaY < -1) // jos on liikutettu niin eteenpäin vain yksi
                 {
                     return true;
                 }
-                if (uusiX == vanhaX && peli.lauta.Lauta(uusiX, uusiY) != null)
+                if (uusiX == vanhaX && peli.lauta.Lauta(uusiX, uusiY) != null) // ei voi syödä samalla x koordinaatilla olevaa// ei voi syödä samalla x koordinaatilla olevaa
                 {
                     return true;
                 }
-                if (uusiY == 4 && peli.lauta.Lauta(uusiX, 5) != null && vanhaY == 6)
+                if (uusiY == 4 && peli.lauta.Lauta(uusiX, 5) != null && vanhaY == 6) // ei voi mennä alkuruudusta toisen nappulan läpi kaksi ruutua eteenpäin
                 {
                     return true;
                 }
-                if (uusiX - vanhaX < -1 || uusiX - vanhaX > 1)
+                if (uusiX - vanhaX < -1 || uusiX - vanhaX > 1) // ei voi mennä vaakasuunnassa pidemmälle sivulle kuin yksi ruutu
                 {
                     return true;
                 }
-                if (uusiX != vanhaX && uusiY - vanhaY == -2)
+                if (uusiX != vanhaX && uusiY - vanhaY == -2)  // ei voi mennä kaksi ruutua eteenpäin ja sivulle samaan aikaan
                 {
                     return true;
                 }
-                if (uusiX != vanhaX && peli.lauta.Lauta(uusiX, uusiY) == null)
+                if (uusiX != vanhaX && peli.lauta.Lauta(uusiX, uusiY) == null) // ei voi mennä sivulle ellei syö nappulaa
                 {
                     return true;
                 }
@@ -98,13 +98,13 @@ namespace Mscee
         /// <param name="uusiX">nappulan uuden paikan X-koordinaatti</param>
         /// <param name="uusiY">nappulan uuden paikan Y-koordinaatti</param>
         /// <returns>Palauttaa true, jos siirto on laiton. False, jos siirto on laillinen.</returns>
-        public static bool Torni(int vanhaX, int vanhaY, int uusiX, int uusiY) // Määritellään tornin laittomat siirrot
+        public bool Torni(int vanhaX, int vanhaY, int uusiX, int uusiY) // Määritellään tornin laittomat siirrot
         {
-            if (uusiX - vanhaX != 0 && uusiY - vanhaY != 0)
+            if (uusiX - vanhaX != 0 && uusiY - vanhaY != 0) // voi liikkua vain vaaka- tai pystysuunnassa
             {
                 return true;
             }
-            if (vanhaX < uusiX) // katsotaan onko reitillä nappuloita, jos on niin palauttaa true
+            if (vanhaX < uusiX) // katsotaan onko reitillä nappuloita, liikutaan oikealle
             {
                 for (int i = vanhaX + 1; i < uusiX; i++)
                 {
@@ -114,7 +114,7 @@ namespace Mscee
                     }
                 }
             }
-            if (vanhaX > uusiX) // katsotaan onko reitillä nappuloita, jos on niin palauttaa true
+            if (vanhaX > uusiX) // katsotaan onko reitillä nappuloita, liikutaan vasemmalle
             {
                 for (int i = vanhaX - 1; i > uusiX; i--)
                 {
@@ -124,7 +124,7 @@ namespace Mscee
                     }
                 }
             }
-            if (vanhaY < uusiY) // nyt kun siirrot tapahtuvat y-akselilla
+            if (vanhaY < uusiY) // katsotaan onko reitillä nappuloita, liikutaan ylös
             {
                 for (int i = vanhaY + 1; i < uusiY; i++)
                 {
@@ -134,7 +134,7 @@ namespace Mscee
                     }
                 }
             }
-            if (vanhaY > uusiY) // nyt kun siirrot tapahtuvat y-akselilla
+            if (vanhaY > uusiY) // katsotaan onko reitillä nappuloita, liikutaan alas
             {
                 for (int i = vanhaY - 1; i > uusiY; i--)
                 {
@@ -155,21 +155,21 @@ namespace Mscee
         /// <param name="uusiX">nappulan uuden paikan X-koordinaatti</param>
         /// <param name="uusiY">nappulan uuden paikan Y-koordinaatti</param>
         /// <returns>Palauttaa true, jos siirto on laiton. False, jos siirto on laillinen.</returns>
-        public static bool Ratsu(int vanhaX, int vanhaY, int uusiX, int uusiY)
+        public bool Ratsu(int vanhaX, int vanhaY, int uusiX, int uusiY)
         {
-            if (uusiX - vanhaX > 2 || uusiX - vanhaX < -2)
+            if (uusiX - vanhaX > 2 || uusiX - vanhaX < -2) // sivuille ei voi liikkua enemmän kuin kaksi ruutua
             {
                 return true;
             }
-            if (uusiY - vanhaY > 2 || uusiY - vanhaY < -2)
+            if (uusiY - vanhaY > 2 || uusiY - vanhaY < -2) // eikä ylös tai alas
             {
                 return true;
             }
-            if (uusiY == vanhaY || uusiX == vanhaX)
+            if (uusiY == vanhaY || uusiX == vanhaX) // kummallakin akselilla on tapahduttava muutosta
             {
                 return true;
             }
-            if (uusiX - vanhaX == uusiY - vanhaY || uusiX - vanhaX == -1 * (uusiY - vanhaY))
+            if (uusiX - vanhaX == uusiY - vanhaY || uusiX - vanhaX == -1 * (uusiY - vanhaY)) // ei saa liikkua diagonaalilla
             {
                 return true;
             }
@@ -183,9 +183,9 @@ namespace Mscee
         /// <param name="uusiX">nappulan uuden paikan X-koordinaatti</param>
         /// <param name="uusiY">nappulan uuden paikan Y-koordinaatti</param>
         /// <returns>Palauttaa true, jos siirto on laiton. False, jos siirto on laillinen.</returns>
-        public static bool Lahetti(int vanhaX, int vanhaY, int uusiX, int uusiY)
+        public bool Lahetti(int vanhaX, int vanhaY, int uusiX, int uusiY)
         {
-            if (uusiX - vanhaX != uusiY - vanhaY && uusiX - vanhaX != -1 * (uusiY - vanhaY)) // tapahtuuko siirto ylipäätään samalla diagonaalilla
+            if (uusiX - vanhaX != uusiY - vanhaY && uusiX - vanhaX != -1 * (uusiY - vanhaY)) // tapahtuuko siirto ylipäätään diagonaalilla
             {
                 return true;
             }
@@ -244,7 +244,7 @@ namespace Mscee
         /// <param name="uusiX">nappulan uuden paikan X-koordinaatti</param>
         /// <param name="uusiY">nappulan uuden paikan Y-koordinaatti</param>
         /// <returns>Palauttaa true, jos siirto on laiton. False, jos siirto on laillinen.</returns>
-        public static bool Kuningas(int vanhaX, int vanhaY, int uusiX, int uusiY)
+        public bool Kuningas(int vanhaX, int vanhaY, int uusiX, int uusiY)
         {
             if (Math.Abs(uusiX - vanhaX) > 1 || Math.Abs(uusiY - vanhaY) > 1)
             {
@@ -261,7 +261,7 @@ namespace Mscee
         /// <param name="uusiX">nappulan uuden paikan X-koordinaatti</param>
         /// <param name="uusiY">nappulan uuden paikan Y-koordinaatti</param>
         /// <returns>Palauttaa true, jos siirto on laiton. False, jos siirto on laillinen.</returns>
-        public static bool Kuningatar(int vanhaX, int vanhaY, int uusiX, int uusiY)
+        public bool Kuningatar(int vanhaX, int vanhaY, int uusiX, int uusiY)
         {
             if (uusiX - vanhaX != 0 && uusiY - vanhaY != 0 && uusiX - vanhaX != uusiY - vanhaY && uusiX - vanhaX != -1 * (uusiY - vanhaY)) // tapahtuuko siirto diagonaalin tai pysty-tai vaakasuunnan ulkopuolella
             {
