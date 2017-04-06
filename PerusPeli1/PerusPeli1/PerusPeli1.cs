@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Jypeli;
 using Jypeli.Assets;
@@ -6,6 +6,8 @@ using Jypeli.Controls;
 using Jypeli.Effects;
 using Jypeli.Widgets;
 using System.Collections;
+/// @author  Markus Kulmala, Jyri Eerola
+/// @version 6.42.2017
 
 namespace Mscee
 {
