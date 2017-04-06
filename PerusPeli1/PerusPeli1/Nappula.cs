@@ -6,6 +6,9 @@ using Jypeli;
 
 namespace Mscee
 {
+    /// <summary>
+    /// nappulaan liittyviä asioita
+    /// </summary>
     public class Nappula : GameObject
     {
         public bool onkoLiikutettu;
@@ -16,13 +19,18 @@ namespace Mscee
 
         Peli peli;
 
-        // Siirrä nappula uuteen paikkaan (x,y).
+        /// <summary>
+        /// Siirrä nappula uuteen paikkaan (x,y)
+        /// </summary>
+        /// <param name="x">uuden paikan x-koordinaatti</param>
+        /// <param name="y">uuden paikan y-koordinaatti</param>
+        /// <returns></returns>
         public bool Siirra(int x, int y)
         {
-            Debug.Prt(1, "Siirto: " + (paikkaX+1) + ", " + (paikkaY+1) + " -> " + (x+1) + ", " + (y+1));
+            Debug.Prt(1, "Siirto: " + (paikkaX + 1) + ", " + (paikkaY + 1) + " -> " + (x + 1) + ", " + (y + 1));
 
-            Nappula kenka = peli.lauta.Lauta(x, y);
-            Debug.Prt(2, "Uudessa ruudussa: " + kenka);
+            Nappula uudenpaikannappula = peli.lauta.Lauta(x, y);
+            Debug.Prt(2, "Uudessa ruudussa: " + uudenpaikannappula);
 
             // tarkistetaan siirtojen laillisuus
             switch (arvo)
@@ -40,17 +48,21 @@ namespace Mscee
             Position = new Vector(peli.asetukset.ruudunKoko * x + peli.asetukset.origo, peli.asetukset.ruudunKoko * y + peli.asetukset.origo);
             Debug.Prt(2, "Position: " + Position.X + ", " + Position.Y);
 
-            if(kenka != null)
+            if (uudenpaikannappula != null)
             {
-                peli.lauta.Poista(x, y);
+                peli.lauta.Poista(x, y); // jos uudessa paikassa on erivärinen nappula, niin se poistetaan
             }
 
             peli.lauta.Lisaa(new Nappula(this.arvo, this.vari, x, y, true));
             peli.lauta.Poista(paikkaX, paikkaY);
 
-            return true; // TODO: PLACEHOLDER, FIX THIS
+            return true;
         }
-
+        /// <summary>
+        /// siirtofunktio, mutta kokonaislukujen sijasta ottaa argumenttina vektorin joka sisältää uuden paikan koordinaatit
+        /// </summary>
+        /// <param name="paikka">uusi paikka</param>
+        /// <returns>menee tekemään saman kuin edellisessä </returns>
         public bool Siirra(Vektori paikka)
         {
             return Siirra(paikka.x, paikka.y);
@@ -88,6 +100,5 @@ namespace Mscee
                 default: break;
             }
         }
-
     }
 }
